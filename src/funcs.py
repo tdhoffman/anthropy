@@ -24,3 +24,14 @@ def bayes_consensus(answersGiven, competancy, numAnswers, prior=-1):
         probability[:,QQQ] = probability[:,QQQ]/sum(probability[:,QQQ])    
       
     return probability
+
+def discounted_agreement_matrix(surveyResults, numAns):
+    output = np.zeros((surveyResults.shape[0], surveyResults.shape[0]))
+    for iii in range(1, output):
+        for jjj in range(1, output):
+            output[iii,jjj] = sum(surveyResults[iii,:] == surveyResults[jjj,:])/surveyResults.shape[1]      
+                 
+    output = (output*numAns - 1)/(numAns-1)
+    np.fill_diagonal(output, 0)
+  
+    return output
